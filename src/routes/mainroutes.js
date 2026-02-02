@@ -11,6 +11,8 @@ const itemRoutes = require('./itemRoutes');
 const inventoryRoutes = require('./inventoryRoutes');
 const fightRoutes = require('./FightRoutes');
 const upgradeRoutes = require('./upgradeRoutes'); 
+const authRoutes = require('./authRoutes');
+const evolvedMinepetRoutes = require('./evolvedMinepetRoutes');
 
 router.use('/inventory', inventoryRoutes);
 router.use('/minepet', minepetRoutes);
@@ -22,5 +24,7 @@ router.use('/usercompletion', userCompletionRoutes);
 router.use('/mobshop', MobshopRoutes);
 router.use('/fight', fightRoutes);
 router.use('/upgrade', upgradeRoutes); 
+router.use('/auth', authRoutes);
+router.use('/evolvedminepet', evolvedMinepetRoutes);
 
 module.exports = router;

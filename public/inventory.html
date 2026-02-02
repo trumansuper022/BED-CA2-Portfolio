@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Inventory | MinePets</title>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+    />
+    <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet' />
+    <link href='/public/css/style.css' rel='stylesheet' />
+  </head>
+  <body>
+            <nav class='navbar navbar-expand-lg navbar-dark mc-navbar'>
+      <div class='container'>
+        <a class='mc-brand' href='/index.html'>
+          <img src='/public/img/minecrafticon.jpg' class='mc-logo' alt='logo' />
+          MinePets
+        </a>
+        <button
+          class='navbar-toggler'
+          type='button'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarNav'
+          aria-controls='navbarNav'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+        >
+          <span class='navbar-toggler-icon'></span>
+        </button>
+        <div class='collapse navbar-collapse' id='navbarNav'>
+          <ul class='navbar-nav me-auto'>
+            <li class='nav-item'><a class='nav-link' href='/index.html'>Home</a></li>
+            <li class='nav-item'><a class='nav-link' href='/users.html'>Crafters</a></li>
+            <li class='nav-item'><a class='nav-link' href='/challenges.html'>Challenges</a></li>
+            <li class='nav-item'><a class='nav-link' href='/completions.html'>Completions</a></li>
+            <li class='nav-item'><a class='nav-link' href='/items.html'>Items</a></li>
+            <li class='nav-item'><a class='nav-link' href='/itemshop.html'>Item Shop</a></li>
+            <li class='nav-item'><a class='nav-link' href='/mobshop.html'>Mob Shop</a></li>
+            <li class='nav-item'><a class='nav-link' href='/minepet.html'>Minepets</a></li>
+            <li class='nav-item'><a class='nav-link' href='/evolvedminepet.html'>Evolved Minepets</a></li>
+            <li class='nav-item'><a class='nav-link' href='/inventory.html'>Inventory</a></li>
+            <li class='nav-item'><a class='nav-link' href='/fight.html'>Fight</a></li>
+            <li class='nav-item'><a class='nav-link' href='/upgrade.html'>Upgrade</a></li>
+          </ul>
+          <ul class='navbar-nav ms-auto'>
+            <li class='nav-item'><a id='profileButton' href='/profile.html' class='nav-link'>Profile</a></li>
+            <li class='nav-item'><a id='loginButton' href='/login.html' class='nav-link'>Login</a></li>
+            <li class='nav-item'><a id='registerButton' href='/register.html' class='nav-link'>Register</a></li>
+            <li class='nav-item'><a id='logoutButton' href='#' class='nav-link'>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class='py-4'>
+      <div class='container'>
+        <div class='mc-panel p-4 mb-4'>
+          <h2 class='mb-3'>Inventory</h2>
+          <div id='inventoryMessage' class='alert d-none'></div>
+          <form id='filterInventoryForm' class='row g-3 mb-3'>
+            <div class='col-md-8'>
+              <select id='filterUserId' class='form-select'></select>
+            </div>
+            <div class='col-md-4'>
+              <button class='btn btn-mc w-100' type='submit'>Filter</button>
+            </div>
+          </form>
+          <div id='inventoryList' class='mc-inventory-grid'></div>
+        </div>
+
+        <div class='mc-panel p-4 mb-4'>
+          <h3 class='mc-section-title'>Create Inventory Entry</h3>
+          <form id='createInventoryForm' class='row g-3'>
+            <div class='col-md-4'>
+              <select id='createInventoryUserId' class='form-select' required></select>
+            </div>
+            <div class='col-md-4'>
+              <select id='createInventoryMinepetId' class='form-select'></select>
+            </div>
+            <div class='col-md-4'>
+              <select id='createInventoryItemId' class='form-select'></select>
+            </div>
+            <div class='col-12'>
+              <div id='createInventoryMessage' class='alert d-none'></div>
+              <button class='btn btn-mc w-100' type='submit'>Create</button>
+            </div>
+          </form>
+        </div>
+
+        <div class='mc-panel p-4 mb-4'>
+          <h3 class='mc-section-title'>Apply Item to Minepet</h3>
+          <form id='applyItemForm' class='row g-3'>
+            <div class='col-md-4'>
+              <select id='applyUserId' class='form-select' required></select>
+            </div>
+            <div class='col-md-4'>
+              <select id='applyMinepetInventoryId' class='form-select' required></select>
+            </div>
+            <div class='col-md-4'>
+              <select id='applyItemInventoryId' class='form-select' required></select>
+            </div>
+            <div class='col-12'>
+              <div id='applyItemMessage' class='alert d-none'></div>
+              <button class='btn btn-mc w-100' type='submit'>Apply Item</button>
+            </div>
+          </form>
+          <small class='mc-muted'>Applying an item consumes it and boosts the minepet stats.</small>
+        </div>
+
+        <div class='mc-panel p-4'>
+          <h3 class='mc-section-title'>Delete Inventory Entry</h3>
+          <form id='deleteInventoryForm' class='row g-3'>
+            <div class='col-md-6'>
+              <select id='deleteInventoryId' class='form-select' required></select>
+            </div>
+            <div class='col-md-6'>
+              <div id='deleteInventoryMessage' class='alert d-none'></div>
+              <button class='btn btn-mc w-100' type='submit'>Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class='mc-footer py-3 text-center'>
+      <div class='container'>
+        <small>Inventory stores purchased items and minepets.</small>
+      </div>
+    </footer>
+
+    <script
+      src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'
+    ></script>
+    <script src='/js/api.js'></script>
+    <script src='/js/auth.js'></script>
+    <script src='/js/ui.js'></script>
+    <script src='/js/selects.js'></script>
+    <script src='/js/navbar.js'></script>
+    <script src='/js/inventory.js'></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

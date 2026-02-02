@@ -1,0 +1,251 @@
+:root {
+  --mc-green: #3b7a57;
+  --mc-green-dark: #2a5a40;
+  --mc-dirt: #8b5a2b;
+  --mc-stone: #6b6b6b;
+  --mc-light: #f6f3ea;
+  --mc-dark: #1f1f1f;
+  --mc-gold: #f1c232;
+  --mc-sky: #8fd1ff;
+  --mc-accent: #46a049;
+  --mc-border: #2e2e2e;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  background: radial-gradient(circle at top, #dff4ff 0%, #cfefff 40%, var(--mc-light) 100%);
+  color: var(--mc-dark);
+  letter-spacing: 0.1px;
+  font-size: 0.8rem;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('/public/img/placeholder.svg');
+  background-size: 260px;
+  background-repeat: repeat;
+  opacity: 0.08;
+  z-index: -1;
+}
+
+.mc-panel {
+  background: #fffdf6;
+  border: 3px solid var(--mc-border);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.mc-card {
+  border: 2px solid var(--mc-border);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.card-media {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 2px solid var(--mc-border);
+  border-radius: 6px;
+  background: #f0f0f0;
+  image-rendering: pixelated;
+}
+
+.mc-navbar {
+  background: linear-gradient(180deg, var(--mc-green) 0%, var(--mc-green-dark) 100%);
+  border-bottom: 3px solid var(--mc-border);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.mc-navbar .navbar-nav {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mc-navbar .nav-link {
+  color: #fefefe;
+  font-size: 0.65rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.mc-navbar .nav-link:hover,
+.mc-navbar .nav-link:focus {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mc-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--mc-light);
+  text-decoration: none;
+}
+
+.mc-logo {
+  width: 38px;
+  height: 38px;
+  image-rendering: pixelated;
+}
+
+.mc-hero {
+  background: linear-gradient(180deg, #fffdf6 0%, #e7f7e9 100%);
+  border: 3px solid var(--mc-border);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.mc-badge {
+  background: var(--mc-gold);
+  color: #2b2b2b;
+  border: 2px solid var(--mc-border);
+  padding: 6px 10px;
+  display: inline-block;
+  border-radius: 6px;
+}
+
+.mc-footer {
+  background: var(--mc-stone);
+  color: #f5f5f5;
+  border-top: 3px solid var(--mc-border);
+}
+
+.btn-mc {
+  background: var(--mc-accent);
+  border: 2px solid var(--mc-border);
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-mc:hover {
+  background: #3f8c44;
+  color: #fff;
+}
+
+.mc-section-title {
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.placeholder-img {
+  width: 100%;
+  height: 180px;
+  background: repeating-linear-gradient(
+    45deg,
+    #e0e0e0,
+    #e0e0e0 10px,
+    #f5f5f5 10px,
+    #f5f5f5 20px
+  );
+  border: 2px solid var(--mc-border);
+  border-radius: 8px;
+}
+
+.form-control,
+.form-select {
+  border: 2px solid var(--mc-border);
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.mc-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.mc-inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  background: #d1c192;
+  border: 3px solid var(--mc-border);
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.mc-inventory-card {
+  border: 2px solid #3f3f3f;
+  background: #e6d6a6;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px #d0c090;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+  padding: 12px;
+}
+
+.mc-inventory-header {
+  font-size: 0.72rem;
+  margin-bottom: 10px;
+  color: #2b2b2b;
+}
+
+.mc-shop {
+  background: #e7f0db;
+  border: 3px solid #35502f;
+  box-shadow: inset 0 0 0 3px #9bbd7c;
+}
+
+.mc-shop .mc-card {
+  background: #f3f6e8;
+}
+
+.mc-shop .btn-mc {
+  background: #7aa55b;
+}
+
+.mc-muted {
+  color: #5f5f5f;
+}
+
+.mc-small {
+  font-size: 0.6rem;
+  line-height: 1.2;
+}
+
+form .form-control,
+form .form-select {
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.35;
+}
+
+.navbar-toggler {
+  border-color: #f5f5f5;
+}
+
+.navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+main {
+  padding-bottom: 2rem;
+}

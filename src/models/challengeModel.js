@@ -2,17 +2,29 @@ const pool = require('../services/db');
 
 module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
-        SELECT challenge_id, creator_id, description, points
-        FROM WellnessChallenge;
+        SELECT 
+            wc.challenge_id,
+            wc.creator_id,
+            wc.description,
+            wc.points,
+            p.username AS creator_name
+        FROM WellnessChallenge wc, Crafters p
+        WHERE wc.creator_id = p.user_id;
     `;
     pool.query(SQLSTATEMENT, callback);
 };
 
 module.exports.selectById = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT challenge_id, creator_id, description, points
-        FROM WellnessChallenge
-        WHERE challenge_id = ?;
+        SELECT 
+            wc.challenge_id,
+            wc.creator_id,
+            wc.description,
+            wc.points,
+            p.username AS creator_name
+        FROM WellnessChallenge wc, Crafters p
+        WHERE wc.creator_id = p.user_id
+        AND wc.challenge_id = ?;
     `;
     const VALUES = [data.challenge_id];
 
@@ -25,7 +37,6 @@ module.exports.insertSingle = (data, callback) => {
         VALUES (?, ?, ?);
     `;
     const VALUES = [data.creator_id, data.description, data.points];
-
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

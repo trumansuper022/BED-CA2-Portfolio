@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Items | MinePets</title>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+    />
+    <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet' />
+    <link href='/public/css/style.css' rel='stylesheet' />
+  </head>
+  <body>
+            <nav class='navbar navbar-expand-lg navbar-dark mc-navbar'>
+      <div class='container'>
+        <a class='mc-brand' href='/index.html'>
+          <img src='/public/img/minecrafticon.jpg' class='mc-logo' alt='logo' />
+          MinePets
+        </a>
+        <button
+          class='navbar-toggler'
+          type='button'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarNav'
+          aria-controls='navbarNav'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+        >
+          <span class='navbar-toggler-icon'></span>
+        </button>
+        <div class='collapse navbar-collapse' id='navbarNav'>
+          <ul class='navbar-nav me-auto'>
+            <li class='nav-item'><a class='nav-link' href='/index.html'>Home</a></li>
+            <li class='nav-item'><a class='nav-link' href='/users.html'>Crafters</a></li>
+            <li class='nav-item'><a class='nav-link' href='/challenges.html'>Challenges</a></li>
+            <li class='nav-item'><a class='nav-link' href='/completions.html'>Completions</a></li>
+            <li class='nav-item'><a class='nav-link' href='/items.html'>Items</a></li>
+            <li class='nav-item'><a class='nav-link' href='/itemshop.html'>Item Shop</a></li>
+            <li class='nav-item'><a class='nav-link' href='/mobshop.html'>Mob Shop</a></li>
+            <li class='nav-item'><a class='nav-link' href='/minepet.html'>Minepets</a></li>
+            <li class='nav-item'><a class='nav-link' href='/evolvedminepet.html'>Evolved Minepets</a></li>
+            <li class='nav-item'><a class='nav-link' href='/inventory.html'>Inventory</a></li>
+            <li class='nav-item'><a class='nav-link' href='/fight.html'>Fight</a></li>
+            <li class='nav-item'><a class='nav-link' href='/upgrade.html'>Upgrade</a></li>
+          </ul>
+          <ul class='navbar-nav ms-auto'>
+            <li class='nav-item'><a id='profileButton' href='/profile.html' class='nav-link'>Profile</a></li>
+            <li class='nav-item'><a id='loginButton' href='/login.html' class='nav-link'>Login</a></li>
+            <li class='nav-item'><a id='registerButton' href='/register.html' class='nav-link'>Register</a></li>
+            <li class='nav-item'><a id='logoutButton' href='#' class='nav-link'>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class='py-4'>
+      <div class='container'>
+        <div class='mc-panel p-4 mb-4'>
+          <h2 class='mb-3'>Items</h2>
+          <div id='itemMessage' class='alert d-none'></div>
+          <div id='itemList' class='mc-grid'></div>
+        </div>
+
+        <div class='mc-panel p-4 mb-4'>
+          <h3 class='mc-section-title'>Create Item</h3>
+          <form id='createItemForm' class='row g-3'>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='createItemName' class='form-control' placeholder='Item Name' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='createItemDescription' class='form-control' placeholder='Description' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='createItemType' class='form-control' placeholder='Type (e.g. potion)' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='createItemHp' class='form-control' type='number' placeholder='Bonus HP' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='createItemAtk' class='form-control' type='number' placeholder='Bonus ATK' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='createItemDef' class='form-control' type='number' placeholder='Bonus DEF' required />
+            </div>
+            <div class='col-12'>
+              <div id='createItemMessage' class='alert d-none'></div>
+              <button class='btn btn-mc w-100' type='submit'>Create</button>
+            </div>
+          </form>
+        </div>
+
+        <div class='mc-panel p-4 mb-4'>
+          <h3 class='mc-section-title'>Update Item</h3>
+          <form id='updateItemForm' class='row g-3'>
+            <div class='col-md-3'>
+              <select id='updateItemId' class='form-select' required></select>
+            </div>
+            <div class='col-md-3'>
+              <input autocomplete='off' id='updateItemName' class='form-control' placeholder='Item Name' required />
+            </div>
+            <div class='col-md-3'>
+              <input autocomplete='off' id='updateItemDescription' class='form-control' placeholder='Description' required />
+            </div>
+            <div class='col-md-3'>
+              <input autocomplete='off' id='updateItemType' class='form-control' placeholder='Type' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='updateItemHp' class='form-control' type='number' placeholder='Bonus HP' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='updateItemAtk' class='form-control' type='number' placeholder='Bonus ATK' required />
+            </div>
+            <div class='col-md-4'>
+              <input autocomplete='off' id='updateItemDef' class='form-control' type='number' placeholder='Bonus DEF' required />
+            </div>
+            <div class='col-12'>
+              <div id='updateItemMessage' class='alert d-none'></div>
+              <button class='btn btn-mc w-100' type='submit'>Update</button>
+            </div>
+          </form>
+        </div>
+
+        <div class='mc-panel p-4'>
+          <h3 class='mc-section-title'>Delete Item</h3>
+          <form id='deleteItemForm' class='row g-3'>
+            <div class='col-md-6'>
+              <select id='deleteItemId' class='form-select' required></select>
+            </div>
+            <div class='col-md-6'>
+              <div id='deleteItemMessage' class='alert d-none'></div>
+              <button class='btn btn-mc w-100' type='submit'>Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class='mc-footer py-3 text-center'>
+      <div class='container'>
+        <small>Items boost your minepets in battles.</small>
+      </div>
+    </footer>
+
+    <script
+      src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'
+    ></script>
+    <script src='/js/api.js'></script>
+    <script src='/js/auth.js'></script>
+    <script src='/js/ui.js'></script>
+    <script src='/js/selects.js'></script>
+    <script src='/js/navbar.js'></script>
+    <script src='/js/items.js'></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

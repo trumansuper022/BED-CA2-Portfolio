@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>MinePets Wellness Hub</title>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+    />
+    <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet' />
+    <link href='/public/css/style.css' rel='stylesheet' />
+  </head>
+  <body>
+            <nav class='navbar navbar-expand-lg navbar-dark mc-navbar'>
+      <div class='container'>
+        <a class='mc-brand' href='/index.html'>
+          <img src='/public/img/minecrafticon.jpg' class='mc-logo' alt='logo' />
+          MinePets
+        </a>
+        <button
+          class='navbar-toggler'
+          type='button'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarNav'
+          aria-controls='navbarNav'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+        >
+          <span class='navbar-toggler-icon'></span>
+        </button>
+        <div class='collapse navbar-collapse' id='navbarNav'>
+          <ul class='navbar-nav me-auto'>
+            <li class='nav-item'><a class='nav-link' href='/index.html'>Home</a></li>
+            <li class='nav-item'><a class='nav-link' href='/users.html'>Crafters</a></li>
+            <li class='nav-item'><a class='nav-link' href='/challenges.html'>Challenges</a></li>
+            <li class='nav-item'><a class='nav-link' href='/completions.html'>Completions</a></li>
+            <li class='nav-item'><a class='nav-link' href='/items.html'>Items</a></li>
+            <li class='nav-item'><a class='nav-link' href='/itemshop.html'>Item Shop</a></li>
+            <li class='nav-item'><a class='nav-link' href='/mobshop.html'>Mob Shop</a></li>
+            <li class='nav-item'><a class='nav-link' href='/minepet.html'>Minepets</a></li>
+            <li class='nav-item'><a class='nav-link' href='/evolvedminepet.html'>Evolved Minepets</a></li>
+            <li class='nav-item'><a class='nav-link' href='/inventory.html'>Inventory</a></li>
+            <li class='nav-item'><a class='nav-link' href='/fight.html'>Fight</a></li>
+            <li class='nav-item'><a class='nav-link' href='/upgrade.html'>Upgrade</a></li>
+          </ul>
+          <ul class='navbar-nav ms-auto'>
+            <li class='nav-item'><a id='profileButton' href='/profile.html' class='nav-link'>Profile</a></li>
+            <li class='nav-item'><a id='loginButton' href='/login.html' class='nav-link'>Login</a></li>
+            <li class='nav-item'><a id='registerButton' href='/register.html' class='nav-link'>Register</a></li>
+            <li class='nav-item'><a id='logoutButton' href='#' class='nav-link'>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class='py-5'>
+      <div class='container'>
+        <section class='mc-hero mb-4'>
+          <div class='row align-items-center g-4'>
+            <div class='col-lg-7'>
+              <h1 class='mb-3'>Minecraft Wellness Quest</h1>
+              <p class='mc-muted'>
+                Earn Emeralds by completing wellness challenges, collect Minepets, and upgrade your squad.
+                Your world grows as you build habits, unlock new companions, and stack rewards.
+              </p>
+              <div class='mc-badge mt-3'>Welcome <span id='heroUser'>Explorer</span></div>
+            </div>
+            <div class='col-lg-5'>
+              <div class='placeholder-img'></div>
+            </div>
+          </div>
+        </section>
+
+        <section class='mc-panel p-4'>
+          <h2 class='mc-section-title'>World Overview</h2>
+          <p class='mc-muted'>
+            MinePets is a gamified wellness world where good habits power your adventure. Every challenge
+            you create or complete earns Emeralds, and those Emeralds unlock new Minepets, items, and upgrades.
+          </p>
+          <p class='mc-muted'>
+            Build your squad by collecting Minepets with different base stats. Use items to boost them,
+            apply upgrades for permanent growth, and store everything in your inventory so your progress
+            is always visible.
+          </p>
+          <p class='mc-muted'>
+            When you are ready, take your Minepets into battle. Winning battles grants bonus Emeralds and
+            proves your team is growing stronger with every healthy choice you make.
+          </p>
+          <div class='mc-grid mt-3'>
+            <div class='mc-card p-3'>
+              <h5>Wellness Quests</h5>
+              <p>Create challenges and complete them to earn Emeralds and level up your journey.</p>
+              <img class='card-media mt-2' src='/public/img/placeholder.svg' alt='quest placeholder' />
+            </div>
+            <div class='mc-card p-3'>
+              <h5>Minepets</h5>
+              <p>Collect companions and build a balanced squad with different stat focuses.</p>
+              <img class='card-media mt-2' src='/public/img/placeholder.svg' alt='minepet placeholder' />
+            </div>
+            <div class='mc-card p-3'>
+              <h5>Items</h5>
+              <p>Buy items and apply them to Minepets to boost HP, ATK, or DEF.</p>
+              <img class='card-media mt-2' src='/public/img/placeholder.svg' alt='item placeholder' />
+            </div>
+            <div class='mc-card p-3'>
+              <h5>Inventory</h5>
+              <p>Track your Minepets, items, and applied boosts all in one place.</p>
+              <img class='card-media mt-2' src='/public/img/placeholder.svg' alt='inventory placeholder' />
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class='mc-footer py-3 text-center'>
+      <div class='container'>
+        <small>MinePets Wellness Hub — Replace placeholder art with your own Minecraft-style assets.</small>
+      </div>
+    </footer>
+
+    <script
+      src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'
+    ></script>
+    <script src='/js/api.js'></script>
+    <script src='/js/auth.js'></script>
+    <script src='/js/navbar.js'></script>
+    <script src='/js/home.js'></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360'>
+  <rect width='640' height='360' fill='#e0e0e0'/>
+  <path d='M0 0h640v360H0z' fill='none' stroke='#6b6b6b' stroke-width='12'/>
+  <text x='50%' y='50%' font-family='Courier New, monospace' font-size='28' fill='#6b6b6b' text-anchor='middle' dominant-baseline='middle'>
+    Replace Me
+  </text>
+</svg>

@@ -2,6 +2,7 @@
 // INCLUDES
 //////////////////////////////////////////////////////
 const express = require('express');
+const path = require('path');
 
 //////////////////////////////////////////////////////
 // CREATE APP
@@ -13,7 +14,11 @@ const app = express();
 // USES
 //////////////////////////////////////////////////////
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
+// Serve static frontend assets from /public
+const publicDir = path.join(__dirname, '..', 'public');
+app.use(express.static(publicDir));
+app.use('/public', express.static(publicDir));
 
 //////////////////////////////////////////////////////
 // SETUP ROUTES

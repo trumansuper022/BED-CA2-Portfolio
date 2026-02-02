@@ -9,12 +9,12 @@ const setting = {
     password : process.env.DB_PASSWORD, //get password from environment variable
     database : process.env.DB_DATABASE, //get database from environment variable
     multipleStatements: true, //allow multiple sql statements
-    dateStrings: true //return date as string instead of Date object
+    dateStrings: true, //return date as string instead of Date object
+    ssl: {
+        rejectUnauthorized: (process.env.DB_SSL_REJECT_AUTHORISE=="true")  // Set to `true` to enforce server certificate verification
+    }
 }
 
 const pool = mysql.createPool(setting);
-
-console.log('Connecting to MySQL with DB:', process.env.DB_DATABASE);
-
 
 module.exports = pool;

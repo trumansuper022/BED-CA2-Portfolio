@@ -56,13 +56,14 @@ module.exports.createNewMinepet = (req, res, next) => {
             res.status(500).json(error);
         } else {
             res.status(201).json({
-            minepet_id: results.insertId,
-            name: data.name,
-            description: data.description,
-            basehp: data.base_hp,
-            baseatk: data.base_atk,
-            basedef: data.base_def
-        });
+                minepet_id: results.insertId,
+                name: data.name,
+                description: data.description,
+                basehp: data.base_hp,
+                baseatk: data.base_atk,
+                basedef: data.base_def
+            });
+        }
     };
 
     minepetModel.insertSingle(data, callback);

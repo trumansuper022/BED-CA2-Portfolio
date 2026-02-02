@@ -60,7 +60,7 @@ module.exports.createNewmobShop = (req, res, next) => {
             console.error("Error createNewShop:", error);
             res.status(500).json(error);
         } else {
-            res.status(201).json.json({
+            res.status(201).json({
                 mobshop_id: results.insertId,
                 minepetid: data.minepet_id,
                 pricepoints: data.price_points

@@ -6,6 +6,7 @@ module.exports.selectInventoryWithMobAndStatsById = (data, callback) => {
             inv.inventory_id,
             inv.user_id,
             inv.minepet_id,
+            inv.evolved_minepet_id,
             inv.item_id,
             inv.quantity,
             inv.bonus_hp,

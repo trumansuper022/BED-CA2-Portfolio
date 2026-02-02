@@ -13,6 +13,80 @@ module.exports.readAllUsers = (req, res, next) => {
     userModel.selectAll(callback);
 };
 
+// Read players owned by the logged-in user
+module.exports.readMyPlayers = (req, res, next) => {
+    const data = { owner_user_id: res.locals.userId };
+
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error readMyPlayers:", error);
+            res.status(500).json(error);
+            return;
+        }
+        res.status(200).json(results);
+    };
+
+    userModel.selectAllByOwner(data, callback);
+};
+
+// Verify crafter belongs to logged-in user (admin bypass)
+module.exports.verifyCrafterOwnership = (req, res, next) => {
+    const creator_id = req.body.creator_id;
+    if (creator_id == undefined) {
+        res.status(400).json({ message: "Error: creator_id is undefined" });
+        return;
+    }
+
+    if (res.locals.userId === 1) {
+        next();
+        return;
+    }
+
+    const data = { user_id: Number(creator_id) };
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error verifyCrafterOwnership:", error);
+            res.status(500).json(error);
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).json({ message: "Crafter not found" });
+            return;
+        }
+        const crafter = results[0];
+        if (crafter.owner_user_id !== res.locals.userId) {
+            res.status(403).json({ message: "Crafter does not belong to user" });
+            return;
+        }
+        next();
+    };
+
+    userModel.selectById(data, callback);
+};
+// Attach the first player id for the logged-in user
+module.exports.attachDefaultPlayerId = (req, res, next) => {
+    const data = { owner_user_id: res.locals.userId };
+
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error attachDefaultPlayerId:", error);
+            res.status(500).json(error);
+            return;
+        }
+
+        if (results.length === 0) {
+            res.status(404).json({ message: "No players found for user" });
+            return;
+        }
+
+        const player = results[0];
+        req.body.creator_id = player.user_id;
+        next();
+    };
+
+    userModel.selectFirstByOwner(data, callback);
+};
+
 module.exports.readUserById = (req, res, next) => {
     const user_id = req.params.id;
 
@@ -52,7 +126,8 @@ module.exports.createUser = (req, res, next) => {
 
     const data = {
         username: username,
-        points: points
+        points: points,
+        owner_user_id: res.locals.userId
     };
 
 const callback = (error, results, fields) => {
@@ -87,16 +162,37 @@ module.exports.updateUserById = (req, res, next) => {
     }
     const data = { userid: parseInt(userid), username: username, points: points };
 
-    const callback = (error, results, fields) => {
-        if (error) {
-            console.error("Error updateUserById:", error);
-            res.status(500).json(error);
+    const callbackCheck = (errorCheck, resultsCheck) => {
+        if (errorCheck) {
+            console.error("Error updateUserById (check):", errorCheck);
+            res.status(500).json(errorCheck);
             return;
         }
-        res.status(200).json({ message: "User updated", userid: parseInt(userid), username: username, points: points });
+
+        if (resultsCheck.length === 0) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+
+        const player = resultsCheck[0];
+        if (player.owner_user_id !== res.locals.userId) {
+            res.status(403).json({ message: "Not allowed to update this player" });
+            return;
+        }
+
+        const callback = (error, results, fields) => {
+            if (error) {
+                console.error("Error updateUserById:", error);
+                res.status(500).json(error);
+                return;
+            }
+            res.status(200).json({ message: "User updated", userid: parseInt(userid), username: username, points: points });
+        };
+
+        userModel.updateById(data, callback);
     };
 
-    userModel.updateById(data, callback);
+    userModel.selectById({ user_id: parseInt(userid) }, callbackCheck);
 };
 
 
@@ -110,24 +206,45 @@ module.exports.deleteUserById = (req, res, next) => {
 
     const data = { user_id: parseInt(user_id) };
 
-    const callback = (error, results, fields) => {
-        if (error) {
-            console.error("Error deleteUserById:", error);
-            res.status(500).json(error);
+    const callbackCheck = (errorCheck, resultsCheck) => {
+        if (errorCheck) {
+            console.error("Error deleteUserById (check):", errorCheck);
+            res.status(500).json(errorCheck);
             return;
         }
 
-        if (results.affectedRows === 0) {
+        if (resultsCheck.length === 0) {
             res.status(404).json({ message: "User not found" });
             return;
         }
 
-        res.status(200).json({
-            message: "User deleted"
-        });
+        const player = resultsCheck[0];
+        if (player.owner_user_id !== res.locals.userId) {
+            res.status(403).json({ message: "Not allowed to delete this player" });
+            return;
+        }
+
+        const callbackDelete = (error, results, fields) => {
+            if (error) {
+                console.error("Error deleteUserById:", error);
+                res.status(500).json(error);
+                return;
+            }
+
+            if (results.affectedRows === 0) {
+                res.status(404).json({ message: "User not found" });
+                return;
+            }
+
+            res.status(200).json({
+                message: "User deleted"
+            });
+        };
+
+        userModel.deleteById(data, callbackDelete);
     };
 
-    userModel.deleteById(data, callback);
+    userModel.selectById(data, callbackCheck);
 };
 
 module.exports.addWinPoints = (req, res, next) => {
@@ -168,20 +285,41 @@ module.exports.updateUserPointsById = (req, res, next) => {
         pointsToAdd: req.body.pointsToAdd
     };
 
-    const callback = (error, results, fields) => {
-        if (error) {
-            console.error("Error updateUserPointsById:", error);
-            res.status(500).json(error);
-        } else {
-            if (results.affectedRows === 0) {
-                res.status(404).json({ message: "User not found" });
-            } else {
-                next();
-            }
+    const callbackCheck = (errorCheck, resultsCheck) => {
+        if (errorCheck) {
+            console.error("Error updateUserPointsById (check):", errorCheck);
+            res.status(500).json(errorCheck);
+            return;
         }
+
+        if (resultsCheck.length === 0) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+
+        const player = resultsCheck[0];
+        if (player.owner_user_id !== res.locals.userId) {
+            res.status(403).json({ message: "Not allowed to modify this player" });
+            return;
+        }
+
+        const callback = (error, results, fields) => {
+            if (error) {
+                console.error("Error updateUserPointsById:", error);
+                res.status(500).json(error);
+            } else {
+                if (results.affectedRows === 0) {
+                    res.status(404).json({ message: "User not found" });
+                } else {
+                    next();
+                }
+            }
+        };
+
+        userModel.incrementUserPoints(data, callback);
     };
 
-    userModel.incrementUserPoints(data, callback);
+    userModel.selectById({ user_id: req.body.user_id }, callbackCheck);
 };
 
 
@@ -206,6 +344,10 @@ module.exports.checkAndDeductPoints = (req, res, next) => {
             }
 
             const user = results[0];
+            if (user.owner_user_id !== res.locals.userId) {
+                res.status(403).json({ message: "Not allowed to use this player" });
+                return;
+            }
             if (user.points < price) {
                 res.status(400).json({ message: "Not enough points" });
                 return;

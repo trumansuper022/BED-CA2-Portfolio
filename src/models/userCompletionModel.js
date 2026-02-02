@@ -25,7 +25,6 @@ module.exports.insertSingle = (data, callback) => {
         VALUES (?, ?, ?);
     `;
     const VALUES = [data.challenge_id, data.user_id, data.details];
-
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

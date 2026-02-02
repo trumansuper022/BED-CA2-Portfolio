@@ -1,11 +1,13 @@
 const userCompletionController = require('../controllers/userCompletionController');
 const challengeController = require('../controllers/challengeController');
 const userController = require('../controllers/userController');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 const express = require('express');
 const router = express.Router();
 
 router.post('/',
+    jwtMiddleware.verifyToken,
     userCompletionController.checkNotCreator,
     userCompletionController.addCompletion,
     userCompletionController.addPointsToUser,
@@ -14,6 +16,6 @@ router.post('/',
 );
 router.get('/', userCompletionController.readAllCompletions);
 router.get('/:completion_id', userCompletionController.readCompletionById);
-router.delete('/:id', userCompletionController.deleteCompletionById);
+router.delete('/:id', jwtMiddleware.verifyToken, userCompletionController.deleteCompletionById);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const challengeModel = require('../models/challengeModel');
+const userModel = require('../models/userModel');
 
 module.exports.readAllChallenges = (req, res, next) => {
     const callback = (error, results, fields) => {
@@ -45,9 +46,14 @@ module.exports.createChallenge = (req, res, next) => {
     const creator_id = req.body.creator_id;
     const description = req.body.description;
     const points = req.body.points;
+    const MAX_POINTS = 100;
 
     if (creator_id == undefined || description == undefined || points == undefined) {
         res.status(400).json({ message: "Error: creator_id, description or points is undefined" });
+        return;
+    }
+    if (points > MAX_POINTS) {
+        res.status(400).json({ message: `Error: points must be <= ${MAX_POINTS}` });
         return;
     }
 
@@ -73,6 +79,62 @@ module.exports.createChallenge = (req, res, next) => {
     };
 
     challengeModel.insertSingle(data, callback);
+};
+
+// Verify challenge ownership for update/delete (admin bypass)
+module.exports.verifyChallengeOwnership = (req, res, next) => {
+    const challenge_id = req.params.challenge_id || req.params.id;
+
+    if (challenge_id == undefined) {
+        res.status(400).json({ message: "Error: challenge_id is undefined" });
+        return;
+    }
+
+    if (res.locals.userId === 1) {
+        next();
+        return;
+    }
+
+    const dataChallenge = { challenge_id: parseInt(challenge_id) };
+    const cbChallenge = (errorC, resultsC) => {
+        if (errorC) {
+            console.error("Error verifyChallengeOwnership (challenge):", errorC);
+            res.status(500).json(errorC);
+            return;
+        }
+
+        if (resultsC.length === 0) {
+            res.status(404).json({ message: "Challenge not found" });
+            return;
+        }
+
+        const challenge = resultsC[0];
+        const dataCrafter = { user_id: challenge.creator_id };
+        const cbCrafter = (errorU, resultsU) => {
+            if (errorU) {
+                console.error("Error verifyChallengeOwnership (crafter):", errorU);
+                res.status(500).json(errorU);
+                return;
+            }
+
+            if (resultsU.length === 0) {
+                res.status(404).json({ message: "Crafter not found" });
+                return;
+            }
+
+            const crafter = resultsU[0];
+            if (crafter.owner_user_id !== res.locals.userId) {
+                res.status(403).json({ message: "Not allowed to modify this challenge" });
+                return;
+            }
+
+            next();
+        };
+
+        userModel.selectById(dataCrafter, cbCrafter);
+    };
+
+    challengeModel.selectById(dataChallenge, cbChallenge);
 };
 
 module.exports.checkIsCreator = (req, res, next) => {
@@ -116,9 +178,14 @@ module.exports.updateChallengeById = (req, res, next) => {
     const challenge_id = req.params.challenge_id;
     const description = req.body.description;
     const points = req.body.points;
+    const MAX_POINTS = 100;
 
     if (challenge_id == undefined || description == undefined || points == undefined) {
         res.status(400).json({ message: "Error: challenge_id, description or points is undefined" });
+        return;
+    }
+    if (points > MAX_POINTS) {
+        res.status(400).json({ message: `Error: points must be <= ${MAX_POINTS}` });
         return;
     }
 
