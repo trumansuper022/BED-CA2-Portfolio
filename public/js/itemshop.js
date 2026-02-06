@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <img class='card-media mb-2' src='${getAssetImage('item', entry.name)}' alt='item shop' />
         <h5>Itemshop #${entry.itemshop_id}</h5>
         <div>Item: ${entry.name}</div>
+        <div class='mc-muted'>Bonus HP: ${entry.bonus_hp ?? 0}, ATK: ${entry.bonus_atk ?? 0}, DEF: ${entry.bonus_def ?? 0}</div>
         <div>Price: ${entry.price_points} emeralds</div>
       `);
 

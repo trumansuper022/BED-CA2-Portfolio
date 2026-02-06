@@ -1,4 +1,4 @@
-const minepetModel = require('../models/MinePetModel.js');
+const minepetModel = require('../models/minePetModel.js');
 
 module.exports.readAllMinepet = (req, res, next) => {
     const callback = (error, results, fields) => {

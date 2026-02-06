@@ -13,6 +13,7 @@ module.exports.selectAll = (callback) => {
             inv.bonus_atk,
             inv.bonus_def,
             inv.applied_item_id,
+            inv.applied_items,
             mp.name AS minepet_name,
             mp.base_hp,
             mp.base_atk,
@@ -43,6 +44,7 @@ module.exports.selectAll = (callback) => {
             inv.bonus_atk,
             inv.bonus_def,
             inv.applied_item_id,
+            inv.applied_items,
             NULL AS minepet_name,
             NULL AS base_hp,
             NULL AS base_atk,
@@ -73,6 +75,7 @@ module.exports.selectAll = (callback) => {
             inv.bonus_atk,
             inv.bonus_def,
             inv.applied_item_id,
+            inv.applied_items,
             NULL AS minepet_name,
             NULL AS base_hp,
             NULL AS base_atk,
@@ -106,6 +109,7 @@ module.exports.selectAllByUserId = (data, callback) => {
             inv.bonus_atk,
             inv.bonus_def,
             inv.applied_item_id,
+            inv.applied_items,
             mp.name AS minepet_name,
             mp.base_hp,
             mp.base_atk,
@@ -137,6 +141,7 @@ module.exports.selectAllByUserId = (data, callback) => {
             inv.bonus_atk,
             inv.bonus_def,
             inv.applied_item_id,
+            inv.applied_items,
             NULL AS minepet_name,
             NULL AS base_hp,
             NULL AS base_atk,
@@ -168,6 +173,7 @@ module.exports.selectAllByUserId = (data, callback) => {
             inv.bonus_atk,
             inv.bonus_def,
             inv.applied_item_id,
+            inv.applied_items,
             NULL AS minepet_name,
             NULL AS base_hp,
             NULL AS base_atk,
@@ -224,7 +230,7 @@ module.exports.deleteById = (data, callback) => {
 module.exports.updateBonusesAndAppliedItem = (data, callback) => {
     const SQLSTATEMENT = `
         UPDATE Inventory
-        SET bonus_hp = ?, bonus_atk = ?, bonus_def = ?, applied_item_id = ?
+        SET bonus_hp = ?, bonus_atk = ?, bonus_def = ?, applied_item_id = ?, applied_items = ?
         WHERE inventory_id = ?;
     `;
     const VALUES = [
@@ -232,6 +238,7 @@ module.exports.updateBonusesAndAppliedItem = (data, callback) => {
         data.bonusatk,
         data.bonusdef,
         data.applied_item_id,
+        data.applied_items,
         data.inventoryid
     ];
 

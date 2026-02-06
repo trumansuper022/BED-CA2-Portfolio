@@ -33,14 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMyPlayers().then(populatePlayerSelects);
   }
 
-  const loadInventoryForUser = (userId) => {
+  const loadInventoryForUpgrade = (userId) => {
     if (!userId) return;
     request(`/inventory/user/${userId}`, { method: 'GET' }).then((result) => {
       if (result.ok) {
         const inventory = result.data || [];
+        const minepetInventory = inventory.filter(
+          (inv) => inv.minepet_id != null || inv.evolved_minepet_id != null
+        );
         populateSelect(
           'upgradeInventoryId',
-          inventory,
+          minepetInventory,
           (inv) => inv.inventory_id,
           (inv) => {
             if (inv.evolved_minepet_id != null) {
@@ -49,10 +52,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return `#${inv.inventory_id} - ${inv.minepet_name || 'Minepet'}`;
           },
           'Select inventory'
+        );
+      }
+    });
+  };
+
+  const loadInventoryForGamble = (userId) => {
+    if (!userId) return;
+    request(`/inventory/user/${userId}`, { method: 'GET' }).then((result) => {
+      if (result.ok) {
+        const inventory = result.data || [];
+        const minepetInventory = inventory.filter(
+          (inv) => inv.minepet_id != null || inv.evolved_minepet_id != null
         );
         populateSelect(
           'gambleInventoryId',
-          inventory,
+          minepetInventory,
           (inv) => inv.inventory_id,
           (inv) => {
             if (inv.evolved_minepet_id != null) {
@@ -62,7 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           'Select inventory'
         );
+      }
+    });
+  };
 
+  const loadInventoryForEvolve = (userId) => {
+    if (!userId) return;
+    request(`/inventory/user/${userId}`, { method: 'GET' }).then((result) => {
+      if (result.ok) {
+        const inventory = result.data || [];
         const baseMinepets = inventory.filter((inv) => inv.minepet_id != null);
         populateSelect(
           'evolveMinepetInventoryId',
@@ -93,10 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setDefaultPlayer('upgradeUserId', players);
     setDefaultPlayer('gambleUserId', players);
     setDefaultPlayer('evolveUserId', players);
-    const defaultUserId = document.getElementById('upgradeUserId').value;
-    if (defaultUserId) {
-      loadInventoryForUser(defaultUserId);
-    }
+    const upgradeUserId = document.getElementById('upgradeUserId').value;
+    const gambleUserId = document.getElementById('gambleUserId').value;
+    const evolveUserId = document.getElementById('evolveUserId').value;
+    if (upgradeUserId) loadInventoryForUpgrade(upgradeUserId);
+    if (gambleUserId) loadInventoryForGamble(gambleUserId);
+    if (evolveUserId) loadInventoryForEvolve(evolveUserId);
   };
 
   if (isAdmin) {
@@ -106,15 +131,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const upgradeUserSelect = document.getElementById('upgradeUserId');
+  const gambleUserSelect = document.getElementById('gambleUserId');
   const evolveUserSelect = document.getElementById('evolveUserId');
   if (upgradeUserSelect) {
     upgradeUserSelect.addEventListener('change', () => {
-      loadInventoryForUser(upgradeUserSelect.value);
+      loadInventoryForUpgrade(upgradeUserSelect.value);
+    });
+  }
+  if (gambleUserSelect) {
+    gambleUserSelect.addEventListener('change', () => {
+      loadInventoryForGamble(gambleUserSelect.value);
     });
   }
   if (evolveUserSelect) {
     evolveUserSelect.addEventListener('change', () => {
-      loadInventoryForUser(evolveUserSelect.value);
+      loadInventoryForEvolve(evolveUserSelect.value);
     });
   }
   if (normalForm) {

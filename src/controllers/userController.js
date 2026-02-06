@@ -15,6 +15,19 @@ module.exports.readAllUsers = (req, res, next) => {
 
 // Read players owned by the logged-in user
 module.exports.readMyPlayers = (req, res, next) => {
+    if (res.locals.userId === 1) {
+        const callbackAll = (error, results) => {
+            if (error) {
+                console.error("Error readMyPlayers (admin):", error);
+                res.status(500).json(error);
+                return;
+            }
+            res.status(200).json(results);
+        };
+        userModel.selectAll(callbackAll);
+        return;
+    }
+
     const data = { owner_user_id: res.locals.userId };
 
     const callback = (error, results) => {
@@ -175,7 +188,7 @@ module.exports.updateUserById = (req, res, next) => {
         }
 
         const player = resultsCheck[0];
-        if (player.owner_user_id !== res.locals.userId) {
+        if (res.locals.userId !== 1 && player.owner_user_id !== res.locals.userId) {
             res.status(403).json({ message: "Not allowed to update this player" });
             return;
         }
@@ -219,7 +232,7 @@ module.exports.deleteUserById = (req, res, next) => {
         }
 
         const player = resultsCheck[0];
-        if (player.owner_user_id !== res.locals.userId) {
+        if (res.locals.userId !== 1 && player.owner_user_id !== res.locals.userId) {
             res.status(403).json({ message: "Not allowed to delete this player" });
             return;
         }
@@ -298,7 +311,7 @@ module.exports.updateUserPointsById = (req, res, next) => {
         }
 
         const player = resultsCheck[0];
-        if (player.owner_user_id !== res.locals.userId) {
+        if (res.locals.userId !== 1 && player.owner_user_id !== res.locals.userId) {
             res.status(403).json({ message: "Not allowed to modify this player" });
             return;
         }
@@ -344,7 +357,7 @@ module.exports.checkAndDeductPoints = (req, res, next) => {
             }
 
             const user = results[0];
-            if (user.owner_user_id !== res.locals.userId) {
+            if (res.locals.userId !== 1 && user.owner_user_id !== res.locals.userId) {
                 res.status(403).json({ message: "Not allowed to use this player" });
                 return;
             }

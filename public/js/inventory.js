@@ -31,10 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
               ${isMinepet ? `<div>Base HP: ${isEvolved ? inv.evolved_base_hp ?? '-' : inv.base_hp ?? '-'}</div>
               <div>Base ATK: ${isEvolved ? inv.evolved_base_atk ?? '-' : inv.base_atk ?? '-'}</div>
               <div>Base DEF: ${isEvolved ? inv.evolved_base_def ?? '-' : inv.base_def ?? '-'}</div>` : `<div>${inv.item_description || ''}</div>`}
-              <div>Applied Item: ${inv.applied_item_name ?? '-'}</div>
-              <div>Bonus HP: ${inv.bonus_hp ?? 0}</div>
+              <div>Applied Items: ${inv.applied_items || inv.applied_item_name || '-'}</div>
+              ${isMinepet ? `<div>Bonus HP: ${inv.bonus_hp ?? 0}</div>
               <div>Bonus ATK: ${inv.bonus_atk ?? 0}</div>
-              <div>Bonus DEF: ${inv.bonus_def ?? 0}</div>
+              <div>Bonus DEF: ${inv.bonus_def ?? 0}</div>` : `<div>Bonus HP: ${inv.item_bonus_hp ?? 0}</div>
+              <div>Bonus ATK: ${inv.item_bonus_atk ?? 0}</div>
+              <div>Bonus DEF: ${inv.item_bonus_def ?? 0}</div>`}
             `;
             container.appendChild(wrapper);
           });

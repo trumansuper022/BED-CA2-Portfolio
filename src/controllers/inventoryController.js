@@ -304,7 +304,12 @@ module.exports.applyItemToMinepet = (req, res, next) => {
                     }
 
                     const item = itemRows[0];
-                    const itemName = String(item.name || '').toLowerCase().trim();
+                        const itemName = String(item.name || '').toLowerCase().trim();
+
+                        if (itemName === 'nether star') {
+                            res.status(400).json({ message: "Nether Star cannot be applied to minepets" });
+                            return;
+                        }
 
                     const cbPet = (errorPet, petRows) => {
                         if (errorPet) {
@@ -319,9 +324,6 @@ module.exports.applyItemToMinepet = (req, res, next) => {
 
                         const pet = petRows[0];
                         const petName = String(pet.name || '').toLowerCase().trim();
-                        const baseHp = Number(pet.base_hp || 0);
-                        const baseAtk = Number(pet.base_atk || 0);
-                        const baseDef = Number(pet.base_def || 0);
 
                         const undeadPets = ['zombie', 'drowned', 'husk', 'baby zombie', 'skeleton', 'bogged', 'parched', 'stray'];
                         const trialPets = ['zombie', 'drowned', 'husk', 'baby zombie', 'skeleton', 'bogged', 'parched', 'stray', 'slime', 'magma cube'];
@@ -343,34 +345,24 @@ module.exports.applyItemToMinepet = (req, res, next) => {
                             return;
                         }
 
-                        let bonusHpAdd = Number(item.bonus_hp || 0);
-                        let bonusAtkAdd = Number(item.bonus_atk || 0);
-                        let bonusDefAdd = Number(item.bonus_def || 0);
-
-                        if (itemName === 'beehive') {
-                            bonusHpAdd += baseHp;
-                            bonusAtkAdd += 2;
-                        } else if (itemName === 'spawner') {
-                            bonusHpAdd += baseHp;
-                        } else if (itemName === 'trial chamber') {
-                            bonusHpAdd += Math.round(baseHp * 0.5);
-                            bonusAtkAdd += Math.round(baseAtk * 0.5);
-                            bonusDefAdd += Math.round(baseDef * 0.5);
-                        } else if (itemName === 'wolf armor') {
-                            bonusHpAdd += Math.round(baseHp * 0.5);
-                            bonusDefAdd += baseDef;
-                        }
+                        const bonusHpAdd = Number(item.bonus_hp || 0);
+                        const bonusAtkAdd = Number(item.bonus_atk || 0);
+                        const bonusDefAdd = Number(item.bonus_def || 0);
 
                         const newBonusHp = (minepetInv.bonus_hp || 0) + bonusHpAdd;
                         const newBonusAtk = (minepetInv.bonus_atk || 0) + bonusAtkAdd;
                         const newBonusDef = (minepetInv.bonus_def || 0) + bonusDefAdd;
+                        const appliedItems = minepetInv.applied_items
+                            ? `${minepetInv.applied_items}, ${item.name}`
+                            : item.name;
 
                         const updateData = {
                             inventoryid: minepetInv.inventory_id,
                             bonushp: newBonusHp,
                             bonusatk: newBonusAtk,
                             bonusdef: newBonusDef,
-                            applied_item_id: item.item_id
+                            applied_item_id: item.item_id,
+                            applied_items: appliedItems
                         };
 
                         const cbUpdate = (errorUpdate, updateResults) => {
@@ -392,6 +384,7 @@ module.exports.applyItemToMinepet = (req, res, next) => {
                                     message: "Item applied to minepet",
                                     minepet_inventory_id: minepetInv.inventory_id,
                                     applied_item_id: item.item_id,
+                                    applied_items: appliedItems,
                                     new_bonus_hp: newBonusHp,
                                     new_bonus_atk: newBonusAtk,
                                     new_bonus_def: newBonusDef

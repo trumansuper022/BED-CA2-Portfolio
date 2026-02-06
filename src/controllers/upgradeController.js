@@ -263,7 +263,8 @@ module.exports.evolveMinepet = (req, res, next) => {
                             bonus_hp = 0,
                             bonus_atk = 0,
                             bonus_def = 0,
-                            applied_item_id = NULL
+                            applied_item_id = NULL,
+                            applied_items = NULL
                         WHERE inventory_id = ?;
                     `;
                     const updateValues = [evolved_id, minepet_inventory_id];

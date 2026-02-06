@@ -19,6 +19,13 @@ module.exports.simpleStatFight = (req, res, next) => {
         return;
     }
 
+        if (attacker_id == defender_id || defender_id == attacker_id) {
+        res.status(400).json({
+            message: "Cannot fight yourself bozo."
+        });
+        return;
+    }
+
     const cbPets = (errorP, rowsP, fieldsP) => {
         if (errorP) {
             console.error("Error simpleStatFight (selectTwoPetsById):", errorP);

@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = document.getElementById('username').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (password !== confirmPassword) {
+      showMessage('warningText', 'Passwords do not match', 'danger');
+      return;
+    }
 
     request('/auth/register', {
       method: 'POST',

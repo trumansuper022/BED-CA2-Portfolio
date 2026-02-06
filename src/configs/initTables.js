@@ -120,7 +120,8 @@ CREATE TABLE Inventory (
   bonus_atk INT NOT NULL DEFAULT 0,
   bonus_def INT NOT NULL DEFAULT 0,
   quantity INT NOT NULL DEFAULT 1,
-  applied_item_id INT NULL
+  applied_item_id INT NULL,
+  applied_items TEXT NULL
 );
 
 CREATE TABLE Fight (
@@ -166,7 +167,7 @@ INSERT INTO MinePet (name, description, base_hp, base_atk, base_def) VALUES
   ('Piglin Rangers', 'A coordinated squad of three piglins: one crossbow, two swordfighters.',  85, 12,  7),
   ('Iron Golem',     'Massive, nearly unstoppable guardian forged to protect.',                130, 14, 12),
   ('Nitwit Gang',    'A chaotic mob of nitwits with torches and blades, dangerous in numbers.', 75, 10,  6),
-  ('Bee',            'A buzzing swarm of angry bees, deadly when grouped together.',            45, 11,  3),
+  ('Bees',            'A buzzing swarm of angry bees, deadly when grouped together.',            45, 11,  3),
   ('Wither Boss',    'Three-headed abomination that rains explosive skulls.',                  200, 25, 12),
   ('Ender Dragon',   'The final airborne terror ruling the void.',                             250, 30, 15),
   ('Blaze',          'A fiery floating mob that hurls blazing projectiles.',                     60, 13,  4),
@@ -175,7 +176,7 @@ INSERT INTO MinePet (name, description, base_hp, base_atk, base_def) VALUES
   ('Guardian',       'An underwater sentinel firing laser beams.',                              95, 14,  9),
   ('Polar Bear',     'A fierce arctic predator with crushing swipes.',                           90, 13,  8),
   ('Warden',         'A terrifying ancient guardian that hits with unstoppable force.',        220, 24, 14),
-  ('Pillager',       'A hostile raider that fires bolts from a crossbow.',                       65, 12,  5),
+  ('Pillager Volley','A squad of four pillagers unleashing crossbow volleys.',                   65, 12,  5),
   ('Wolf',           'A loyal hunter that fights alongside its crafter.',                        70, 12,  6),
   ('Creaking',       'A creepy forest stalker that strikes when watched.',                       85, 15,  7);
 
@@ -185,7 +186,7 @@ INSERT INTO Item (name, description, type, bonus_hp, bonus_atk, bonus_def) VALUE
   ('Diamond Armor', 'Very strong protective armor.', 'rare', -5, 0, 10),
   ('Netherite Armor', 'Elite armor surpassing diamond protection.', 'legendary', -4, 0, 14),
   ('Anvil', 'Greatly boosts defense but is crushingly heavy.', 'armor', -10, 0, 12),
-  ('Wolf Armor', 'Exclusive to Wolf minepets. Heavy protection.', 'exclusive', 15, 0, 10),
+  ('Wolf Armor', 'Exclusive to Wolf minepets. Heavy protection.', 'exclusive', 0, 0, 50),
 
   ('Iron Sword', 'Increases your pet''s attack power.', 'weapon', 0, 5, -1),
   ('Bow', 'Ranged damage boost at the cost of some defense.', 'weapon', 0, 5, -2),
@@ -205,15 +206,17 @@ INSERT INTO Item (name, description, type, bonus_hp, bonus_atk, bonus_def) VALUE
   ('Brewing Station', 'Expensive setup that boosts all stats.', 'rare', 6, 4, 4),
   ('Totem of Undying', 'Prevents pet from dying once in battle.', 'legendary', 50, -2, 6),
 
-  ('Beehive', 'Exclusive to Bee minepets. Greatly boosts them.', 'exclusive', 15, 2, 0),
+  ('Beehive', 'Exclusive to Bee minepets. Greatly boosts them.', 'exclusive', 40, 15, 0),
   ('Spawner', 'Exclusive to undead mobs. Doubles their vitality.', 'exclusive', 25, 0, 0),
-  ('Trial Chamber', 'Exclusive to Zombie/Skeleton/Slime mobs. Powerful boost.', 'exclusive', 20, 8, 6),
+  ('Trial Chamber', 'Exclusive to Zombie/Skeleton/Slime mobs. Powerful boost.', 'exclusive', 25, 10, 10),
 
   ('Nether Star', 'A cosmic relic used to evolve Minepets.', 'legendary', 0, 0, 0);
 
 INSERT INTO EvolvedMinepet (base_minepet_id, name, description, base_hp, base_atk, base_def) VALUES
-  (2, 'Drowned', 'An aquatic zombie that strikes from rivers with chilling precision.', 70, 10, 6),
-  (2, 'Husk', 'A desert zombie that hits harder under the scorching sun.', 75, 11, 6),
+  (2, 'Drowned', 'An aquatic zombie that strikes from rivers with chilling precision.', 80, 15, 6),
+  (2, 'Husk', 'A desert zombie that hits harder under the scorching sun.', 95, 11, 15),
+  (2, 'Zombie Juggernaut', 'A heavy armored zombie with a sword, backed by a baby zombie with a spear.', 95, 14, 12),
+  (2, 'Zombie Mount', 'An iron-armored zombie with a spear riding a zombie horse.', 90, 15, 10),
   (3, 'Bogged', 'A swamp skeleton that spreads decay with every shot.', 60, 12, 5),
   (3, 'Parched', 'A dried-out skeleton from the badlands that fires mercilessly.', 62, 13, 5),
   (3, 'Stray', 'An icy skeleton with slow-frost arrows that sap strength.', 60, 11, 7),
@@ -226,8 +229,9 @@ INSERT INTO EvolvedMinepet (base_minepet_id, name, description, base_hp, base_at
   (7, 'Elite Piglins', 'Highly trained piglin warriors with brutal tactics.', 110, 16, 10),
   (7, 'Zombie Piglin Horde', 'A corrupted piglin pack that fights relentlessly.', 120, 17, 9),
   (16, 'Elder Guardian', 'An ancient guardian with devastating laser blasts.', 140, 18, 14),
-  (20, 'Ravager', 'A raider beast upgraded from a pillager.', 180, 20, 12),
-  (20, 'Vindicator', 'A fierce raider wielding a heavy axe.', 90, 18, 8),
+  (20, 'Ravager Mount', 'A pillager on a ravager, firing a crossbow from above.', 180, 20, 12),
+  (20, 'Raid Team', 'A raid captain with a banner backed by two vindicators.', 110, 20, 10),
+  (9, 'Three Witches', 'A coven of witches empowering the gang with dark magic.', 105, 16, 12),
   (20, 'Evoker', 'A spellcaster that summons fangs and vexes.', 85, 17, 8);
 
 INSERT INTO MobShop (minepet_id, price_points) VALUES
@@ -266,7 +270,7 @@ INSERT INTO ItemShop (item_id, price_points) VALUES
   (21, 1700),
   (22, 2000),
   (23, 1600),
-  (24, 1200);
+  (24, 5000);
 
 INSERT INTO Inventory (user_id, minepet_id, evolved_minepet_id, item_id, bonus_hp, bonus_atk, bonus_def, quantity) VALUES
   (1, 4, NULL, NULL, 0, 0, 0, 1),
